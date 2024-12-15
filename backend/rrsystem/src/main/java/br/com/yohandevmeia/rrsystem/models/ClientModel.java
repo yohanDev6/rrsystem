@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "client")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -39,7 +42,7 @@ public class ClientModel {
     @Column(name = "phone")
     private String phone;
 
-    @Column(name = "active")
+    @Column(name = "active", nullable = false)
     private boolean active;
 
     public ClientModel(String name, String email, String phone, Boolean active) {

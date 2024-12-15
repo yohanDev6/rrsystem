@@ -1,0 +1,55 @@
+-- Create table for "client"
+CREATE TABLE client (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(128) NOT NULL,
+    email VARCHAR(128) UNIQUE NOT NULL,
+    password VARCHAR(128) NOT NULL,
+    phone VARCHAR(128),
+    active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+-- Create table for "administrator" (inherits from client)
+CREATE TABLE administrator (
+    id BIGINT PRIMARY KEY,
+    admin_id BIGINT NOT NULL,
+    FOREIGN KEY (id) REFERENCES client(id)
+);
+
+-- Create table for "room"
+CREATE TABLE room (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(128) NOT NULL,
+    capacity INT NOT NULL,
+    location VARCHAR(128),
+    availability BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+-- Create table for "equipment" (optional, if you manage equipment in detail)
+CREATE TABLE equipment (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(128) NOT NULL,
+    room_id BIGINT NOT NULL,
+    FOREIGN KEY (room_id) REFERENCES room(id)
+);
+
+-- Create table for "reservation"
+CREATE TABLE reservation (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    client_id BIGINT NOT NULL,
+    room_id BIGINT NOT NULL,
+    reservation_date DATE NOT NULL,
+    reservation_time DATETIME NOT NULL,
+    status VARCHAR(128) NOT NULL,
+    FOREIGN KEY (client_id) REFERENCES client(id),
+    FOREIGN KEY (room_id) REFERENCES room(id)
+);
+
+-- Create table for "report"
+CREATE TABLE report (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    generation_date DATE NOT NULL,
+    data TEXT,
+    admin_id BIGINT NOT NULL,
+    FOREIGN KEY (admin_id) REFERENCES administrator(id)
+);
+

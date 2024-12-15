@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import br.com.yohandevmeia.rrsystem.models.ClientModel;
 import br.com.yohandevmeia.rrsystem.repositories.ClientRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ClientService {
@@ -19,6 +20,7 @@ public class ClientService {
     }
 
     // Save the client
+    @Transactional
     public void save(ClientModel client) {
         if (client == null) {
             throw new IllegalArgumentException("Invalid data to create");
@@ -27,6 +29,7 @@ public class ClientService {
         clientRepository.save(client);
     }
 
+    @Transactional(readOnly = true)
     public ClientModel getClientById(long id) {
         if (id <= 0) {
             throw new IllegalArgumentException("Invalid ID");
@@ -36,6 +39,7 @@ public class ClientService {
             .orElseThrow(() -> new EntityNotFoundException("Client with ID " + id + " not found"));
     }
 
+    @Transactional(readOnly = true)
     public ClientModel getClientByEmail(String email) {
         if (email.equals("") || email == null || email.isEmpty()) {
             throw new IllegalArgumentException("Invalid email");
@@ -45,6 +49,7 @@ public class ClientService {
             .orElseThrow(() -> new EntityNotFoundException("Client with email " + email + " not found"));
     }
 
+    @Transactional(readOnly = true)
     public List<ClientModel> getAllClients() {
         List<ClientModel> clients = clientRepository.findAll();
 
@@ -56,28 +61,25 @@ public class ClientService {
     }
 
     // This method does not update the password
+    @Transactional
     public void update(ClientModel clientUpdated) {
         if (clientUpdated == null || clientUpdated.getId() <= 0) {
             throw new IllegalArgumentException("Invalid data to update");
         }
     
-        ClientModel client = getClientById(clientUpdated.getId());
+        ClientModel existingClient = getClientById(clientUpdated.getId());
     
-        client.setName(clientUpdated.getName());
-        client.setEmail(clientUpdated.getEmail());
-        client.setPhone(clientUpdated.getPhone());
+        existingClient.setName(clientUpdated.getName());
+        existingClient.setEmail(clientUpdated.getEmail());
+        existingClient.setPhone(clientUpdated.getPhone());
     
-        clientRepository.save(client);
+        clientRepository.save(existingClient);
     }
 
+    @Transactional
     public void delete(long id) {
-        if (id <= 0) {
-            throw new IllegalArgumentException("Invalid ID to delete");
-        }
-    
-        // Checks if a client exists with this ID
-        getClientById(id);
-    
-        clientRepository.deleteById(id);
+        ClientModel existingClient = clientRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Client not found with id: " + id));
+        clientRepository.delete(existingClient);
     }
 }
