@@ -34,7 +34,7 @@ public class AdminController {
 
     @GetMapping
     public ResponseEntity<?> getAllAdmins() {
-        return new ResponseEntity<>(adminService.getAllAdmins(), HttpStatus.OK);
+        return new ResponseEntity<>(AdminDTO.convertAllAdminModelToDTO(adminService.getAllAdmins()), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

@@ -26,31 +26,25 @@ public class AdminService {
 
     @Transactional
     public void saveAdmin(String userEmail) {
-        // Busca o cliente pelo e-mail
         Optional<ClientModel> optionalClient = clientRepository.findByEmail(userEmail);
         if (optionalClient.isEmpty()) {
             throw new EntityNotFoundException("Client with email " + userEmail + " does not exist");
         }
-    
+
         ClientModel client = optionalClient.get();
-    
-        // Verifica se o cliente está ativo
+
         if (!client.isActive()) {
             throw new IllegalArgumentException("This client is not valid to become an admin");
         }
-    
-        AdminModel admin = new AdminModel();
-        admin.setId(client.getId());
-        admin.setName(client.getName());
-        admin.setEmail(client.getEmail());
-        admin.setPassword(client.getPassword());
-        admin.setPhone(client.getPhone());
-        admin.setActive(client.isActive());
-        admin.setAdminId(client.getId());
-    
+
+        Optional<AdminModel> existingAdmin = adminRepository.findByClient(client);
+        if (existingAdmin.isPresent()) {
+            throw new IllegalArgumentException("This client is already an admin");
+        }
+
+        AdminModel admin = new AdminModel(client, client.getId());
         adminRepository.save(admin);
     }
-    
 
     @Transactional(readOnly = true)
     public AdminModel getAdminById(Long id) {
