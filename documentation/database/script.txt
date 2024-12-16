@@ -6,14 +6,14 @@ CREATE TABLE client (
     password VARCHAR(128) NOT NULL,
     phone VARCHAR(128),
     active BOOLEAN NOT NULL DEFAULT TRUE
-);
+) engine=InnoDB;
 
 -- Create table for "administrator" (inherits from client)
 CREATE TABLE administrator (
-    id BIGINT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     admin_id BIGINT NOT NULL,
     FOREIGN KEY (id) REFERENCES client(id)
-);
+) engine=InnoDB;
 
 -- Create table for "room"
 CREATE TABLE room (
@@ -22,7 +22,7 @@ CREATE TABLE room (
     capacity INT NOT NULL,
     location VARCHAR(128),
     availability BOOLEAN NOT NULL DEFAULT TRUE
-);
+) engine=InnoDB;
 
 -- Create table for "equipment" (optional, if you manage equipment in detail)
 CREATE TABLE equipment (
@@ -30,7 +30,7 @@ CREATE TABLE equipment (
     name VARCHAR(128) NOT NULL,
     room_id BIGINT NOT NULL,
     FOREIGN KEY (room_id) REFERENCES room(id)
-);
+) engine=InnoDB;
 
 -- Create table for "reservation"
 CREATE TABLE reservation (
@@ -42,7 +42,7 @@ CREATE TABLE reservation (
     status VARCHAR(128) NOT NULL,
     FOREIGN KEY (client_id) REFERENCES client(id),
     FOREIGN KEY (room_id) REFERENCES room(id)
-);
+) engine=InnoDB;
 
 -- Create table for "report"
 CREATE TABLE report (
@@ -51,5 +51,5 @@ CREATE TABLE report (
     data TEXT,
     admin_id BIGINT NOT NULL,
     FOREIGN KEY (admin_id) REFERENCES administrator(id)
-);
+) engine=InnoDB;
 
