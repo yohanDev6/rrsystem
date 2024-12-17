@@ -1,7 +1,6 @@
 .nav {
     display: flex;
     justify-content: end;
-    margin-right: 0.75em;
 }
 
 .nav-list {

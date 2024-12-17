@@ -2,13 +2,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 1em;
+    padding: 5px 2em;
     border-bottom: 0.5px solid #333;
 }
 
 .header-title {
     font-size: 2rem;
-    text-indent: 10px;
     text-align: left;
     color: #333;
     text-decoration: none;
