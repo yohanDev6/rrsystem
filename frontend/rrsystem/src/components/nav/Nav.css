@@ -1,16 +1,13 @@
-/* src/components/Nav.css */
 .nav {
-    background-color: #f4f4f4;
-    padding: 10px 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: end;
+    margin-right: 0.75em;
 }
 
 .nav-list {
     display: flex;
-    gap: 20px;
+    gap: 3em;
     list-style: none;
-    margin: 0;
-    padding: 0;
 }
 
 .nav-list a {
@@ -23,9 +20,12 @@
     color: #002366;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 860px) {
     .nav-list {
-        flex-direction: column;
-        gap: 10px;
+        gap: 1em;
+    }
+
+    .nav-list a {
+        font-size: medium;
     }
 }
