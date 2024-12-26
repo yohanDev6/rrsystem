@@ -1,4 +1,3 @@
--- Create database
 CREATE DATABASE RoomReservationSystem;
 USE RoomReservationSystem;
 
