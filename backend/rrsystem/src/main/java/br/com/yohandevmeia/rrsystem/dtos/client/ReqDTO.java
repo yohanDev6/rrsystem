@@ -6,6 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record ReqDTO(
+	long id,
+	
     @NotNull(message = "Name is required")
     @Size(max = 128, message = "Max name size is 128")
     String name,
@@ -24,6 +26,9 @@ public record ReqDTO(
     
     public ClientModel convertDTOToOClientModel() {
         ClientModel client = new ClientModel();
+        if(id > 0) {
+        	client.setId(id);
+        }
         client.setName(name);
         client.setEmail(email);
         client.setPassword(password);

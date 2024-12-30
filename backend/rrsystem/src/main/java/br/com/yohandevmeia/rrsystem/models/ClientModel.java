@@ -1,5 +1,9 @@
 package br.com.yohandevmeia.rrsystem.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -7,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
@@ -40,6 +45,9 @@ public class ClientModel {
 
     @Column(name = "active", nullable = false)
     private boolean active;
+    
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ReservationModel> reservations = new ArrayList<>();
     
     public ClientModel() {
     	
@@ -98,5 +106,13 @@ public class ClientModel {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public List<ReservationModel> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<ReservationModel> reservations) {
+		this.reservations = reservations;
 	}
 }

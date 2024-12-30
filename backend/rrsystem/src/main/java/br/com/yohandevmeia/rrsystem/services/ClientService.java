@@ -60,19 +60,25 @@ public class ClientService {
         return clients;
     }
 
-    // This method does not update the password
+    //This method does not update the password
     @Transactional
     public void update(ClientModel clientUpdated) {
         if (clientUpdated == null || clientUpdated.getId() <= 0) {
             throw new IllegalArgumentException("Invalid data to update");
         }
-    
+
         ClientModel existingClient = getClientById(clientUpdated.getId());
-    
-        existingClient.setName(clientUpdated.getName());
-        existingClient.setEmail(clientUpdated.getEmail());
-        existingClient.setPhone(clientUpdated.getPhone());
-    
+
+        if (clientUpdated.getName() != null && !clientUpdated.getName().isEmpty()) {
+            existingClient.setName(clientUpdated.getName());
+        }
+        if (clientUpdated.getEmail() != null && !clientUpdated.getEmail().isEmpty()) {
+            existingClient.setEmail(clientUpdated.getEmail());
+        }
+        if (clientUpdated.getPhone() != null && !clientUpdated.getPhone().isEmpty()) {
+            existingClient.setPhone(clientUpdated.getPhone());
+        }
+
         clientRepository.save(existingClient);
     }
 

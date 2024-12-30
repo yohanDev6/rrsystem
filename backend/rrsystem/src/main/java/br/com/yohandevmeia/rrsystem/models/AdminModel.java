@@ -1,30 +1,38 @@
 package br.com.yohandevmeia.rrsystem.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "administrator")
+@Table(name = "admin")
 public class AdminModel {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", nullable = false)
-    private ClientModel client;
+	@OneToOne
+	@JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false)
+	private ClientModel client;
 
-    @Column(name = "admin_id", nullable = false, unique = true)
-    private Long adminId;
+	@Column(name = "admin_id", nullable = false, unique = true)
+	private Long adminId;
+	    
+	@OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<ReportModel> reports = new ArrayList<>();
 
     public AdminModel() {
     }
@@ -57,4 +65,12 @@ public class AdminModel {
     public void setAdminId(Long adminId) {
         this.adminId = adminId;
     }
+
+	public List<ReportModel> getReports() {
+		return reports;
+	}
+
+	public void setReports(List<ReportModel> reports) {
+		this.reports = reports;
+	}
 }

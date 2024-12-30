@@ -42,7 +42,9 @@ public class AdminService {
             throw new IllegalArgumentException("This client is already an admin");
         }
 
-        AdminModel admin = new AdminModel(client, client.getId());
+        AdminModel admin = new AdminModel();
+        admin.setClient(client);
+        admin.setAdminId(client.getId());
         adminRepository.save(admin);
     }
 
