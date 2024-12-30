@@ -14,10 +14,11 @@ CREATE TABLE client (
 
 -- Create table for "admin"
 CREATE TABLE admin (
-    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
     admin_id BIGINT NOT NULL UNIQUE,
-    FOREIGN KEY (admin_id) REFERENCES client(id)
-) engine=InnoDB;
+    client_id BIGINT NOT NULL UNIQUE,
+    FOREING KEY (client_id) REFERENCES client(id)
+);
 
 -- Create table for "room"
 CREATE TABLE room (
