@@ -6,8 +6,16 @@ import org.springframework.context.annotation.Configuration;
 
 import br.com.yohandevmeia.rrsystem.repositories.AdminRepository;
 import br.com.yohandevmeia.rrsystem.repositories.ClientRepository;
+import br.com.yohandevmeia.rrsystem.repositories.EquipmentRepository;
+import br.com.yohandevmeia.rrsystem.repositories.ReportRepository;
+import br.com.yohandevmeia.rrsystem.repositories.ReservationRepository;
+import br.com.yohandevmeia.rrsystem.repositories.RoomRepository;
 import br.com.yohandevmeia.rrsystem.services.AdminService;
 import br.com.yohandevmeia.rrsystem.services.ClientService;
+import br.com.yohandevmeia.rrsystem.services.EquipmentService;
+import br.com.yohandevmeia.rrsystem.services.ReportService;
+import br.com.yohandevmeia.rrsystem.services.ReservationService;
+import br.com.yohandevmeia.rrsystem.services.RoomService;
 
 @Configuration
 public class Services {
@@ -17,7 +25,15 @@ public class Services {
 
     @Autowired
     private AdminRepository adminRepository;
+    
+    private EquipmentRepository equipmentRepository;
 
+    private RoomRepository roomRepository;
+    
+    private ReportRepository reportRepository;
+    
+    private ReservationRepository reservationRepository;
+    
     @Bean
     public ClientService clientService() {
         return new ClientService(clientRepository);
@@ -26,5 +42,25 @@ public class Services {
     @Bean
     public AdminService adminService() {
         return new AdminService(adminRepository, clientRepository);
+    }
+    
+    @Bean
+    public EquipmentService equipmentService() {
+    	return new EquipmentService(equipmentRepository);
+    }
+    
+    @Bean
+    public RoomService roomService() {
+    	return new RoomService(roomRepository);
+    }
+    
+    @Bean
+    public ReportService reportService() {
+    	return new ReportService(reportRepository);
+    }
+    
+    @Bean
+    public ReservationService reservationService() {
+    	return new ReservationService(reservationRepository);
     }
 }
