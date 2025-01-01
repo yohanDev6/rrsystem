@@ -23,7 +23,7 @@ public class ClientService {
     @Transactional
     public void save(ClientModel client) {
         if (client == null) {
-            throw new IllegalArgumentException("Invalid data to create");
+            throw new IllegalArgumentException("Invalid data to create a client");
         }
         client.setPassword(BCrypt.hashpw(client.getPassword(), BCrypt.gensalt()));
         clientRepository.save(client);
@@ -64,7 +64,7 @@ public class ClientService {
     @Transactional
     public void update(ClientModel clientUpdated) {
         if (clientUpdated == null || clientUpdated.getId() <= 0) {
-            throw new IllegalArgumentException("Invalid data to update");
+            throw new IllegalArgumentException("Invalid data to update the client");
         }
 
         ClientModel existingClient = getClientById(clientUpdated.getId());

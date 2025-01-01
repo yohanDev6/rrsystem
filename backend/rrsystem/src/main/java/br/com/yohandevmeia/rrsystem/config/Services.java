@@ -26,12 +26,16 @@ public class Services {
     @Autowired
     private AdminRepository adminRepository;
     
+    @Autowired
     private EquipmentRepository equipmentRepository;
 
+    @Autowired
     private RoomRepository roomRepository;
     
+    @Autowired
     private ReportRepository reportRepository;
     
+    @Autowired
     private ReservationRepository reservationRepository;
     
     @Bean
@@ -46,7 +50,7 @@ public class Services {
     
     @Bean
     public EquipmentService equipmentService() {
-    	return new EquipmentService(equipmentRepository);
+    	return new EquipmentService(equipmentRepository, roomRepository);
     }
     
     @Bean
