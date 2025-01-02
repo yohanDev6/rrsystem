@@ -9,12 +9,11 @@ public record ResDTO (
     long id,
     String name,
     String email,
-    String phone,
     boolean isActive
 ) {
     
     public ResDTO(ClientModel client) {
-        this(client.getId(), client.getName(), client.getEmail(), client.getPhone(), client.isActive());
+        this(client.getId(), client.getName(), client.getEmail(), client.isActive());
     }
 
     public static ArrayList<ResDTO> convertAllClientsToDTO(List<ClientModel> clients) {

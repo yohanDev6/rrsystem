@@ -24,8 +24,8 @@ public class EquipmentController {
 	private EquipmentService equipmentService;
 	
 	@PostMapping
-	public ResponseEntity<String> saveEquipment(@Valid @RequestBody EquipmentDTO dto) {
-		equipmentService.save(dto.convertDTOToObject(), dto.roomId());
+	public ResponseEntity<String> createEquipment(@Valid @RequestBody EquipmentDTO dto) {
+		equipmentService.create(dto.convertDTOToObject(), dto.roomId());
 		return new ResponseEntity<>("Equipment created successfully", HttpStatus.CREATED);
 	}
 	

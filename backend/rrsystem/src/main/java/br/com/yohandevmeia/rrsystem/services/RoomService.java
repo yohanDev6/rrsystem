@@ -10,7 +10,7 @@ import br.com.yohandevmeia.rrsystem.repositories.RoomRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class RoomService {
+public class RoomService extends GlobalValidationService{
 	
 	private final RoomRepository roomRepository;
 	
@@ -19,18 +19,14 @@ public class RoomService {
 	}
 	
 	@Transactional
-	public void save(RoomModel room) {
-		if (room == null) {
-			throw new IllegalArgumentException("Invalid data to create a room");
-		}
+	public void create(RoomModel room) {
+		verifyObject(room, "Invalid data to create a room");
 		roomRepository.save(room);
 	}
 	
 	@Transactional(readOnly = true)
 	public RoomModel getRoomById(long id) {
-		if (id <= 0) {
-			throw new IllegalArgumentException("Invalid ID to get room");
-		}
+		verifyId(id);
 		return roomRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Room with ID: " + id + "not found"));
 	}
@@ -42,9 +38,7 @@ public class RoomService {
 	
 	@Transactional
 	public void update(RoomModel roomUpdated) {
-		if (roomUpdated.getId() <= 0 || roomUpdated == null) {
-			throw new IllegalArgumentException("Invalid data to update a room");
-		}
+		verifyObject(roomUpdated, "Invalid data to update the room");
 		
 		RoomModel existingRoom = roomRepository.findById(roomUpdated.getId())
 				.orElseThrow(() -> new EntityNotFoundException("Room not found"));
@@ -58,9 +52,7 @@ public class RoomService {
 	
 	@Transactional
 	public void delete(long id) {
-		if (id <= 0) {
-			throw new IllegalArgumentException("Invalid ID to delete room");
-		}
+		verifyId(id);
 		roomRepository.deleteById(id);
 	}
 }

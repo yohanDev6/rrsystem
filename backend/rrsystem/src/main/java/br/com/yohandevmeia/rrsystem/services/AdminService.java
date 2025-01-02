@@ -14,7 +14,7 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class AdminService {
+public class AdminService extends GlobalValidationService{
     
     private final AdminRepository adminRepository;
     private final ClientRepository clientRepository;
@@ -25,11 +25,10 @@ public class AdminService {
     }
 
     @Transactional
-    public void saveAdmin(String userEmail) {
+    public void create(String userEmail) {
+    	verifyEmail(userEmail, "Invalid data to create an admin");
         Optional<ClientModel> optionalClient = clientRepository.findByEmail(userEmail);
-        if (optionalClient.isEmpty()) {
-            throw new EntityNotFoundException("Client with email " + userEmail + " does not exist");
-        }
+        verifyObject(optionalClient.get(), "Client with email: " + userEmail + " not found");
 
         ClientModel client = optionalClient.get();
 
@@ -44,12 +43,12 @@ public class AdminService {
 
         AdminModel admin = new AdminModel();
         admin.setClient(client);
-        admin.setAdminId(client.getId());
         adminRepository.save(admin);
     }
 
     @Transactional(readOnly = true)
     public AdminModel getAdminById(Long id) {
+    	verifyId(id);
         return adminRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Admin not found with id " + id));
     }
@@ -66,7 +65,8 @@ public class AdminService {
     }
 
     @Transactional
-    public void deleteAdmin(Long id) {
+    public void delete(Long id) {
+    	verifyId(id);
         AdminModel existingAdmin = adminRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Admin not found with id: " + id));
         adminRepository.delete(existingAdmin);

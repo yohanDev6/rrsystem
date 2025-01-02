@@ -40,9 +40,6 @@ public class ClientModel {
     @EqualsAndHashCode.Exclude
     private String password;
 
-    @Column(name = "phone")
-    private String phone;
-
     @Column(name = "active", nullable = false)
     private boolean active;
     
@@ -53,10 +50,9 @@ public class ClientModel {
     	
     }
 
-    public ClientModel(String name, String email, String phone, Boolean active) {
+    public ClientModel(String name, String email, Boolean active) {
         this.name = name;
         this.email = email;
-        this.phone = phone;
         this.active = active;
     }
 
@@ -90,14 +86,6 @@ public class ClientModel {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
 	}
 
 	public boolean isActive() {

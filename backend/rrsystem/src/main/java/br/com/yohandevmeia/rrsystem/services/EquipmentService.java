@@ -12,7 +12,7 @@ import br.com.yohandevmeia.rrsystem.repositories.RoomRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class EquipmentService {
+public class EquipmentService extends GlobalValidationService{
 
 	private final EquipmentRepository equipmentRepository;
 	private final RoomRepository roomRepository;
@@ -23,21 +23,17 @@ public class EquipmentService {
 	}
 	
 	@Transactional
-	public void save(EquipmentModel equipment, long roomId) {
-		if (equipment == null) {
-			throw new IllegalArgumentException("Invalid data to create an equipment");
-		}
-
-		equipment.setRoom(getRoomToCreateOrUpdateEquipment(roomId));
-		
+	public void create(EquipmentModel equipment, long roomId) {
+		verifyObject(equipment, "Invalid data to create an equipment");
+		verifyId(roomId);
+		equipment.setRoom(roomRepository.findById(roomId)
+				.orElseThrow(() -> new EntityNotFoundException("Room not found")));
 		equipmentRepository.save(equipment);
 	}
 	
 	@Transactional(readOnly = true)
 	public EquipmentModel getEquipmentById(long id) {
-		if (id <= 0) {
-			throw new IllegalArgumentException("Invalid ID");
-		}
+		verifyId(id);
 		return equipmentRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException("Equipment with ID: "+ id +" not found"));
 	}
@@ -49,16 +45,15 @@ public class EquipmentService {
 	
 	@Transactional
 	public void update(EquipmentModel equipmentUpdated, long newRoomId) {
-		if (equipmentUpdated == null || equipmentUpdated.getId() <= 0) {
-			throw new IllegalArgumentException("Invalid data to update the equipment");
-		}
-		
+		verifyObject(equipmentUpdated, "Invalid data to update the equipment");
+
 		EquipmentModel existingEquipment = getEquipmentById(equipmentUpdated.getId());
-		
 		existingEquipment.setName(equipmentUpdated.getName());
 		
 		if(existingEquipment.getRoom().getId() != newRoomId) {
-			existingEquipment.setRoom(getRoomToCreateOrUpdateEquipment(newRoomId));
+			verifyId(newRoomId);
+			existingEquipment.setRoom(roomRepository.findById(newRoomId)
+					.orElseThrow(() -> new EntityNotFoundException("Room not found")));
 		}
 		
 		equipmentRepository.save(existingEquipment);
@@ -66,14 +61,7 @@ public class EquipmentService {
 	
 	@Transactional
 	public void delete(long id) {
-		if (id <= 0) {
-			throw new IllegalArgumentException("Invalid ID");
-		}
+		verifyId(id);
 		equipmentRepository.deleteById(id);
-	}
-	
-	private RoomModel getRoomToCreateOrUpdateEquipment(long roomId) {
-		return roomRepository.findById(roomId)
-				.orElseThrow(() -> new EntityNotFoundException("Room not found"));
 	}
 }

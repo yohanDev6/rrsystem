@@ -24,8 +24,8 @@ public class RoomController {
 	private RoomService roomService;
 
 	@PostMapping
-	public ResponseEntity<String> saveRoom(@Valid @RequestBody RoomDTO dto) {
-		roomService.save(dto.convertDTOToObject());
+	public ResponseEntity<String> createRoom(@Valid @RequestBody RoomDTO dto) {
+		roomService.create(dto.convertDTOToObject());
 		return new ResponseEntity<>("Room created successfully", HttpStatus.CREATED);
 	}
 	

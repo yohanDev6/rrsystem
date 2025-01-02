@@ -9,13 +9,12 @@ import jakarta.validation.constraints.NotNull;
 
 public record AdminDTO(
     long id,
-    long adminId,
     @Email(message = "Invalid email")
     @NotNull(message = "Email is required")
     String userEmail
 ) {
     public AdminDTO(AdminModel admin) {
-        this(admin.getId(), admin.getAdminId(), admin.getClient().getEmail());
+        this(admin.getId(), admin.getClient().getEmail());
     }
     
     public static ArrayList<AdminDTO> convertAllAdminModelToDTO(List<AdminModel> admins) {

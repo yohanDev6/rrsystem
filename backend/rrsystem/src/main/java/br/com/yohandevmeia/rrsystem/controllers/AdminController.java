@@ -23,7 +23,7 @@ public class AdminController {
 
     @PostMapping
     public ResponseEntity<String> createAdmin(@RequestBody AdminDTO dto) {
-        adminService.saveAdmin(dto.userEmail());
+        adminService.create(dto.userEmail());
         return new ResponseEntity<>("Admin created successfully", HttpStatus.CREATED);
     }
 
@@ -39,7 +39,7 @@ public class AdminController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteAdmin(@PathVariable Long id) {
-        adminService.deleteAdmin(id);
+        adminService.delete(id);
         return new ResponseEntity<>("Admin deleted successfully", HttpStatus.OK);
     }
 }

@@ -65,6 +65,6 @@ public class Services {
     
     @Bean
     public ReservationService reservationService() {
-    	return new ReservationService(reservationRepository);
+    	return new ReservationService(reservationRepository, clientRepository, roomRepository);
     }
 }

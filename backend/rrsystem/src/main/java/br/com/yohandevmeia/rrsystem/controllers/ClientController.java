@@ -25,8 +25,8 @@ public class ClientController {
     private ClientService clientService;
 
     @PostMapping
-    public ResponseEntity<String> saveClient(@Valid @RequestBody ReqDTO dto) {    
-        clientService.save(dto.convertDTOToOClientModel());
+    public ResponseEntity<String> createClient(@Valid @RequestBody ReqDTO dto) {    
+        clientService.create(dto.convertDTOToObject());
         return new ResponseEntity<>("Client created successfully", HttpStatus.CREATED);
     }
 
@@ -47,7 +47,7 @@ public class ClientController {
 
     @PutMapping
     public ResponseEntity<String> updateClient(@Valid @RequestBody ReqDTO dto) {
-        clientService.update(dto.convertDTOToOClientModel());
+        clientService.update(dto.convertDTOToObject());
         return new ResponseEntity<>("Client updated successfully", HttpStatus.OK);
     }
 

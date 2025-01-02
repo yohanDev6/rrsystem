@@ -20,11 +20,11 @@ public record ReqDTO(
     @NotNull(message = "Password is required")
     @Size(min = 8, max = 128, message = "Password size must be > 8 and < 128 characters")
     String password,
-
-    String phone
+    
+    boolean isActive
 ) {
     
-    public ClientModel convertDTOToOClientModel() {
+    public ClientModel convertDTOToObject() {
         ClientModel client = new ClientModel();
         if(id > 0) {
         	client.setId(id);
@@ -32,8 +32,9 @@ public record ReqDTO(
         client.setName(name);
         client.setEmail(email);
         client.setPassword(password);
-        client.setPhone(phone);
-        client.setActive(false);
+        if(isActive) {
+        	client.setActive(isActive);
+        }
         return client;
     }
 }

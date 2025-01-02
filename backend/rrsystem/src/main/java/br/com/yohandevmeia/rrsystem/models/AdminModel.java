@@ -27,9 +27,6 @@ public class AdminModel {
 	@OneToOne
 	@JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false)
 	private ClientModel client;
-
-	@Column(name = "admin_id", nullable = false, unique = true)
-	private Long adminId;
 	    
 	@OneToMany(mappedBy = "admin", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ReportModel> reports = new ArrayList<>();
@@ -37,9 +34,8 @@ public class AdminModel {
     public AdminModel() {
     }
 
-    public AdminModel(ClientModel client, Long adminId) {
+    public AdminModel(ClientModel client) {
         this.client = client;
-        this.adminId = adminId;
     }
 
     public Long getId() {
@@ -56,14 +52,6 @@ public class AdminModel {
 
     public void setClient(ClientModel client) {
         this.client = client;
-    }
-
-    public Long getAdminId() {
-        return adminId;
-    }
-
-    public void setAdminId(Long adminId) {
-        this.adminId = adminId;
     }
 
 	public List<ReportModel> getReports() {
