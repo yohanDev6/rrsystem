@@ -1,5 +1,5 @@
 -- Create database
-CREATE DATABASE RoomReservationSystem;
+CREATE DATABASE IF NOT EXISTS RoomReservationSystem;
 USE RoomReservationSystem;
 
 -- Create table for "client"
@@ -8,16 +8,14 @@ CREATE TABLE client (
     name VARCHAR(128) NOT NULL,
     email VARCHAR(128) UNIQUE NOT NULL,
     password VARCHAR(128) NOT NULL,
-    phone VARCHAR(20),
     active BOOLEAN NOT NULL DEFAULT TRUE
 ) engine=InnoDB;
 
 -- Create table for "admin"
 CREATE TABLE admin (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    admin_id BIGINT NOT NULL UNIQUE,
     client_id BIGINT NOT NULL UNIQUE,
-    FOREING KEY (client_id) REFERENCES client(id)
+    FOREIGN KEY (client_id) REFERENCES client(id)
 );
 
 -- Create table for "room"
@@ -40,11 +38,10 @@ CREATE TABLE equipment (
 -- Create table for "reservation"
 CREATE TABLE reservation (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    reservation_datetime DATETIME NOT NULL,
+    status VARCHAR(20) NOT NULL DEFAULT 'RESERVED',
     client_id BIGINT NOT NULL,
     room_id BIGINT NOT NULL,
-    reservation_date DATE NOT NULL,
-    reservation_time DATETIME NOT NULL,
-    status VARCHAR(20) NOT NULL,
     FOREIGN KEY (client_id) REFERENCES client(id),
     FOREIGN KEY (room_id) REFERENCES room(id)
 ) engine=InnoDB;
@@ -52,7 +49,7 @@ CREATE TABLE reservation (
 -- Create table for "report"
 CREATE TABLE report (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
-    generation_date DATE NOT NULL,
+    generation_date DATETIME NOT NULL,
     data TEXT NOT NULL,
     admin_id BIGINT NOT NULL,
     FOREIGN KEY (admin_id) REFERENCES admin(id)
