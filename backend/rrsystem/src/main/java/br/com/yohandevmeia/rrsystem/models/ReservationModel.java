@@ -2,7 +2,9 @@ package br.com.yohandevmeia.rrsystem.models;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,7 +17,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -41,12 +42,7 @@ public class ReservationModel {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	@ManyToMany
-	@JoinTable(
-	    name = "report_reservation",
-	    joinColumns = @JoinColumn(name = "reservation_id"),
-	    inverseJoinColumns = @JoinColumn(name = "report_id")
-	)
+	@ManyToMany(mappedBy = "reservations")
 	private List<ReportModel> reports = new ArrayList<>();
 	
 	public ReservationModel() {
@@ -97,12 +93,22 @@ public class ReservationModel {
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	
+
 	public List<ReportModel> getReports() {
 		return reports;
 	}
 
 	public void setReports(List<ReportModel> reports) {
 		this.reports = reports;
+	}
+
+	public void addReport(ReportModel report) {
+	    this.reports.add(report);
+	    report.addReservation(this);
+	}
+
+	public void removeReport(ReportModel report) {
+        reports.remove(report);
+        report.getReservations().remove(this);
 	}
 }

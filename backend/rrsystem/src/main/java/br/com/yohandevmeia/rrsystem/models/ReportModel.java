@@ -2,8 +2,11 @@ package br.com.yohandevmeia.rrsystem.models;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -88,5 +91,19 @@ public class ReportModel {
 
 	public void setReservations(List<ReservationModel> reservations) {
 		this.reservations = reservations;
+	}
+
+	public void addReservation(ReservationModel reservation) {
+		if (!reservations.contains(reservation)) {
+			this.reservations.add(reservation);
+			reservation.getReports().add(this);
+		}
+	}
+
+	public void removeReservation(ReservationModel reservation) {
+		if (reservations.contains(reservation)) {
+			this.reservations.remove(reservation);
+			reservation.getReports().remove(this);
+		}
 	}
 }

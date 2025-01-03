@@ -10,7 +10,6 @@ import br.com.yohandevmeia.rrsystem.models.ReservationModel;
 import br.com.yohandevmeia.rrsystem.models.Status;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 
 public record ReservationDTO(

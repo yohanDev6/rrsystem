@@ -60,7 +60,7 @@ public class Services {
     
     @Bean
     public ReportService reportService() {
-    	return new ReportService(reportRepository);
+    	return new ReportService(reportRepository, adminRepository, reservationRepository);
     }
     
     @Bean

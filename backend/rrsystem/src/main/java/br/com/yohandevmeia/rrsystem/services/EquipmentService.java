@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.yohandevmeia.rrsystem.models.EquipmentModel;
-import br.com.yohandevmeia.rrsystem.models.RoomModel;
 import br.com.yohandevmeia.rrsystem.repositories.EquipmentRepository;
 import br.com.yohandevmeia.rrsystem.repositories.RoomRepository;
 import jakarta.persistence.EntityNotFoundException;
