@@ -3,6 +3,7 @@ package br.com.yohandevmeia.rrsystem.services;
 import java.util.List;
 
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.com.yohandevmeia.rrsystem.models.ClientModel;
@@ -14,9 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class ClientService extends GlobalValidationService {
     
     private final ClientRepository clientRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public ClientService(ClientRepository clientRepository) {
+    public ClientService(ClientRepository clientRepository, PasswordEncoder passwordEncoder) {
         this.clientRepository = clientRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -26,10 +29,21 @@ public class ClientService extends GlobalValidationService {
         if (clientRepository.existsByEmail(client.getEmail())) {
             throw new IllegalArgumentException("A client with the email " + client.getEmail() + " already exists.");
         }
-        
-        client.setActive(false);
-        client.setPassword(BCrypt.hashpw(client.getPassword(), BCrypt.gensalt()));
+
+        client.setActive(true);
+        client.setPassword(passwordEncoder.encode(client.getPassword()));
         clientRepository.save(client);
+    	}
+
+    @Transactional(readOnly = true)
+    public ClientModel getClientByEmail(String email) {
+        return clientRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Client not found with email: " + email));
+    }
+    
+    @Transactional(readOnly = true)
+    public boolean existsByEmail(String email) {
+        return clientRepository.existsByEmail(email);
     }
 
     @Transactional(readOnly = true)
@@ -37,13 +51,6 @@ public class ClientService extends GlobalValidationService {
         verifyId(id);
         return clientRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Client with ID " + id + " not found"));
-    }
-
-    @Transactional(readOnly = true)
-    public ClientModel getClientByEmail(String email) {
-    	verifyEmail(email, "Invalid email:" + email + " to find a client");
-        return clientRepository.findByEmail(email)
-            .orElseThrow(() -> new EntityNotFoundException("Client with email " + email + " not found"));
     }
 
     @Transactional(readOnly = true)
