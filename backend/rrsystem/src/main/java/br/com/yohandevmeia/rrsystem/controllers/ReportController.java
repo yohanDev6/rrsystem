@@ -19,7 +19,7 @@ import br.com.yohandevmeia.rrsystem.services.ReportService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("reports")
+@RequestMapping("/reports")
 public class ReportController {
 
 	@Autowired

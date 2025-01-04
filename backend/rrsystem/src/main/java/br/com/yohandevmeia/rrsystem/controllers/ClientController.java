@@ -18,7 +18,7 @@ import br.com.yohandevmeia.rrsystem.services.ClientService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("clients")
+@RequestMapping("/clients")
 public class ClientController {
     
     @Autowired
@@ -35,7 +35,7 @@ public class ClientController {
         return new ResponseEntity<>(ResDTO.convertAllClientsToDTO(clientService.getAllClients()), HttpStatus.OK);
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getClientById(@PathVariable long id) {
         return new ResponseEntity<>(new ResDTO(clientService.getClientById(id)), HttpStatus.OK);
     }

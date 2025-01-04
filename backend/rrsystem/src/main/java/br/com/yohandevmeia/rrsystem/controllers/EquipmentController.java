@@ -17,7 +17,7 @@ import br.com.yohandevmeia.rrsystem.services.EquipmentService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("equipments")
+@RequestMapping("/equipments")
 public class EquipmentController {
 
 	@Autowired

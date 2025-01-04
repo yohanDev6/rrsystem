@@ -17,7 +17,7 @@ import br.com.yohandevmeia.rrsystem.services.RoomService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("rooms")
+@RequestMapping("/rooms")
 public class RoomController {
 
 	@Autowired

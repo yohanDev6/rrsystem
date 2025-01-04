@@ -15,7 +15,7 @@ import br.com.yohandevmeia.rrsystem.dtos.admin.AdminDTO;
 import br.com.yohandevmeia.rrsystem.services.AdminService;
 
 @RestController
-@RequestMapping("admins")
+@RequestMapping("/admins")
 public class AdminController {
     
     @Autowired
@@ -27,7 +27,7 @@ public class AdminController {
         return new ResponseEntity<>("Admin created successfully", HttpStatus.CREATED);
     }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getAdminById(@PathVariable Long id) {
         return new ResponseEntity<>(new AdminDTO(adminService.getAdminById(id)), HttpStatus.OK);
     }

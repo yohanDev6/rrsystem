@@ -17,7 +17,7 @@ import br.com.yohandevmeia.rrsystem.services.ReservationService;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("reservations")
+@RequestMapping("/reservations")
 public class ReservationController {
 
 	@Autowired
