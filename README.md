@@ -32,10 +32,11 @@ Para executar o projeto localmente, siga as etapas abaixo:
    - **Spring Tools Suite 4** (ou outra IDE com suporte ao Spring Boot) 🛠️
    - **Navegador Google Chrome** (ou outro navegador compatível com essas tecnologias) 🌐
 
-2. Configure o banco de dados:
+2. Configure o banco de dados e a chave secreta JWT:
    - Crie um banco de dados MySQL chamado `RoomReservationSystem`.
    - Consulte a documentação do projeto para organizar o banco de dados corretamente.
    - Atualize as configurações no arquivo `application.properties` (localizado em `src/main/resources`) com as credenciais do seu banco de dados.
+   - Lembre-se de configurar a sua chave secreta JWT como `jwt.secret=[SUA_CHAVE_SECRETA]` no `application.properties`.
 
 3. Execute o projeto:
    - Abra o projeto no **Spring Tools Suite 4**.
