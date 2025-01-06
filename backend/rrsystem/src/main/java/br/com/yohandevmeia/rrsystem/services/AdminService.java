@@ -25,10 +25,10 @@ public class AdminService extends GlobalValidationService{
     }
 
     @Transactional
-    public void create(String userEmail) {
-    	verifyEmail(userEmail, "Invalid data to create an admin");
-        Optional<ClientModel> optionalClient = clientRepository.findByEmail(userEmail);
-        verifyObject(optionalClient.get(), "Client with email: " + userEmail + " not found");
+    public void create(long userId) {
+    	verifyId(userId);
+        Optional<ClientModel> optionalClient = clientRepository.findById(userId);
+        verifyObject(optionalClient.get(), "Client with ID: " + userId + " not found");
 
         ClientModel client = optionalClient.get();
 

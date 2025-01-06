@@ -23,7 +23,7 @@ public class AdminController {
 
     @PostMapping
     public ResponseEntity<String> createAdmin(@RequestBody AdminDTO dto) {
-        adminService.create(dto.userEmail());
+        adminService.create(dto.userId());
         return new ResponseEntity<>("Admin created successfully", HttpStatus.CREATED);
     }
 

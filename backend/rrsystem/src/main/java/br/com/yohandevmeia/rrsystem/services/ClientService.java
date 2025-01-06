@@ -2,24 +2,20 @@ package br.com.yohandevmeia.rrsystem.services;
 
 import java.util.List;
 
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.yohandevmeia.rrsystem.models.ClientModel;
 import br.com.yohandevmeia.rrsystem.repositories.ClientRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ClientService extends GlobalValidationService {
     
     private final ClientRepository clientRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public ClientService(ClientRepository clientRepository, PasswordEncoder passwordEncoder) {
+    public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -31,14 +27,7 @@ public class ClientService extends GlobalValidationService {
         }
 
         client.setActive(true);
-        client.setPassword(passwordEncoder.encode(client.getPassword()));
         clientRepository.save(client);
-    	}
-
-    @Transactional(readOnly = true)
-    public ClientModel getClientByEmail(String email) {
-        return clientRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("Client not found with email: " + email));
     }
     
     @Transactional(readOnly = true)

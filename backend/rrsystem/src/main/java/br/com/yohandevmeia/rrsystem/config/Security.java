@@ -3,19 +3,31 @@ package br.com.yohandevmeia.rrsystem.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import br.com.yohandevmeia.rrsystem.services.JwtService;
 
 @Configuration
+@EnableWebSecurity
 public class Security {
     
     @Bean
-    public SecurityFilterChain web(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtService jwtService, UserDetailsService userDetailsService) throws Exception {
         http.csrf((csrf) -> csrf.disable())
-            .authorizeHttpRequests((authorize) -> authorize
-            		.requestMatchers("/register", "/login", "/css/**", "/js/**").permitAll()
+        	.sessionManagement((session) -> session
+        			.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests((authorize) -> authorize 
+            		
+            		.requestMatchers("/login", "/register", "/static/**").permitAll()
             		
             		// Clients routes
 	            	.requestMatchers(HttpMethod.POST, "/clients").permitAll()
@@ -26,7 +38,6 @@ public class Security {
 	            	// Administrators routes
 	            	.requestMatchers(HttpMethod.POST, "/admins").hasRole("ADMIN")
 	            	.requestMatchers(HttpMethod.GET, "/admins", "/admins/{id}").hasRole("ADMIN")
-	            	.requestMatchers(HttpMethod.PUT, "/admins").hasRole("ADMIN")
 	            	.requestMatchers(HttpMethod.DELETE, "/admins/{id}").hasRole("ADMIN")
 	            	
 	            	// Equipments routes
@@ -52,21 +63,20 @@ public class Security {
 	            	.requestMatchers(HttpMethod.GET, "/rooms", "/rooms/{id}").hasRole("CLIENT")
 	            	.requestMatchers(HttpMethod.PUT, "/rooms").hasRole("ADMIN")
 	            	.requestMatchers(HttpMethod.DELETE, "/rooms/{id}").hasRole("ADMIN")
-            	.requestMatchers("/**").permitAll()
-                .anyRequest().authenticated()
-                )
-            .formLogin((form) -> form
-            		.loginPage("/login/")
-            		.defaultSuccessUrl("/")
-            		.permitAll())
-            .logout((logout) -> logout
-            		.logoutSuccessUrl("/login?logout")
-            		.permitAll());
+                .anyRequest().authenticated())
+            .addFilterBefore(new JwtAuthenticationFilter(jwtService, userDetailsService), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
     
+
+    
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
+    	return configuration.getAuthenticationManager();
+    }
+    
+    @Bean
+    public PasswordEncoder passwordEnconder() {
+    	return new BCryptPasswordEncoder();
     }
 }

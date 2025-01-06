@@ -1,7 +1,14 @@
 package br.com.yohandevmeia.rrsystem.models;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,7 +24,7 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "client")
-public class ClientModel {
+public class ClientModel implements UserDetails{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +40,7 @@ public class ClientModel {
     @Column(name = "password", nullable = false, length = 128)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
+    @JsonIgnore
     private String password;
 
     @Column(name = "active", nullable = false)
@@ -97,5 +105,15 @@ public class ClientModel {
 
 	public void setReservations(List<ReservationModel> reservations) {
 		this.reservations = reservations;
+	}
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return List.of(new SimpleGrantedAuthority("ROLE_CLIENT"));
+	}
+
+	@Override
+	public String getUsername() {
+		return email;
 	}
 }

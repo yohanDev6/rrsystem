@@ -3,6 +3,7 @@ package br.com.yohandevmeia.rrsystem.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.com.yohandevmeia.rrsystem.repositories.AdminRepository;
 import br.com.yohandevmeia.rrsystem.repositories.ClientRepository;
@@ -22,7 +23,7 @@ public class Services {
 
     @Autowired
     private ClientRepository clientRepository;
-
+    
     @Autowired
     private AdminRepository adminRepository;
     
