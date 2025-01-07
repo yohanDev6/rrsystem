@@ -1,25 +1,25 @@
-package br.com.yohandevmeia.rrsystem.dtos.client;
+package br.com.yohandevmeia.rrsystem.dtos;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.yohandevmeia.rrsystem.models.ClientModel;
 
-public record ResDTO (
+public record ClientReadDTO (
     long id,
     String name,
     String email,
     boolean isActive
 ) {
     
-    public ResDTO(ClientModel client) {
+    public ClientReadDTO(ClientModel client) {
         this(client.getId(), client.getName(), client.getEmail(), client.isActive());
     }
 
-    public static ArrayList<ResDTO> convertAllClientsToDTO(List<ClientModel> clients) {
-        ArrayList<ResDTO> dtos = new ArrayList<>();
+    public static ArrayList<ClientReadDTO> convertAllClientsToDTO(List<ClientModel> clients) {
+        ArrayList<ClientReadDTO> dtos = new ArrayList<>();
         for(ClientModel client : clients) {
-            dtos.add(new ResDTO(client));
+            dtos.add(new ClientReadDTO(client));
         }
         return dtos;
     }

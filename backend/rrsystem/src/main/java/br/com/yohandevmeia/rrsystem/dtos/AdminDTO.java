@@ -1,4 +1,4 @@
-package br.com.yohandevmeia.rrsystem.dtos.admin;
+package br.com.yohandevmeia.rrsystem.dtos;
 
 import java.util.ArrayList;
 import java.util.List;

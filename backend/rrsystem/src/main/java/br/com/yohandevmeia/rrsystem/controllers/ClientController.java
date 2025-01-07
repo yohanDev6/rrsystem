@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.yohandevmeia.rrsystem.dtos.client.AuthDTO;
-import br.com.yohandevmeia.rrsystem.dtos.client.ReqDTO;
-import br.com.yohandevmeia.rrsystem.dtos.client.ResDTO;
+import br.com.yohandevmeia.rrsystem.dtos.AuthDTO;
+import br.com.yohandevmeia.rrsystem.dtos.ClientReadDTO;
+import br.com.yohandevmeia.rrsystem.dtos.ClientSaveDTO;
 import br.com.yohandevmeia.rrsystem.models.ClientModel;
 import br.com.yohandevmeia.rrsystem.services.ClientService;
 import jakarta.validation.Valid;
@@ -31,7 +31,7 @@ public class ClientController {
     private PasswordEncoder passwordEncoder;
     
     @PostMapping
-    public ResponseEntity<String> createClient(@Valid @RequestBody ReqDTO dto) {
+    public ResponseEntity<String> createClient(@Valid @RequestBody ClientSaveDTO dto) {
     	ClientModel newClient = dto.convertDTOToObject();
     	newClient.setPassword(passwordEncoder.encode(newClient.getPassword()));
         clientService.create(newClient);
@@ -40,16 +40,16 @@ public class ClientController {
 
     @GetMapping
     public ResponseEntity<?> getAllClients() {
-        return new ResponseEntity<>(ResDTO.convertAllClientsToDTO(clientService.getAllClients()), HttpStatus.OK);
+        return new ResponseEntity<>(ClientReadDTO.convertAllClientsToDTO(clientService.getAllClients()), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getClientById(@PathVariable long id) {
-        return new ResponseEntity<>(new ResDTO(clientService.getClientById(id)), HttpStatus.OK);
+        return new ResponseEntity<>(new ClientReadDTO(clientService.getClientById(id)), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<String> updateClient(@Valid @RequestBody ReqDTO dto) {
+    public ResponseEntity<String> updateClient(@Valid @RequestBody ClientSaveDTO dto) {
         clientService.update(dto.convertDTOToObject());
         return new ResponseEntity<>("Client updated successfully", HttpStatus.OK);
     }

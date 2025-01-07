@@ -1,4 +1,4 @@
-package br.com.yohandevmeia.rrsystem.dtos.report;
+package br.com.yohandevmeia.rrsystem.dtos;
 
 import java.util.List;
 
@@ -6,7 +6,7 @@ import br.com.yohandevmeia.rrsystem.models.ReportModel;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
-public record ReqDTO(
+public record ReportSaveDTO(
 		@NotNull(message = "Data is required")
 		String data,
 		

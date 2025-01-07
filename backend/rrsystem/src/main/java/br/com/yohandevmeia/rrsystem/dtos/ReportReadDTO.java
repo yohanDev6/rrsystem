@@ -1,20 +1,19 @@
-package br.com.yohandevmeia.rrsystem.dtos.report;
+package br.com.yohandevmeia.rrsystem.dtos;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.yohandevmeia.rrsystem.dtos.ReservationDTO;
 import br.com.yohandevmeia.rrsystem.models.ReportModel;
 
-public record ResDTO(
+public record ReportReadDTO(
 		long id,
 		long adminId,
 		LocalDateTime generationDate,
 		String data,
 		List<ReservationDTO> reservations) {
 
-	public ResDTO(ReportModel report) {
+	public ReportReadDTO(ReportModel report) {
 		this(
 				report.getId(),
 				report.getAdmin().getId(),
@@ -23,10 +22,10 @@ public record ResDTO(
 				ReservationDTO.convertAllToDTO(report.getReservations()));
 	}
 	
-	public static ArrayList<ResDTO> convertAllToDTO(List<ReportModel> reports) {
-		ArrayList<ResDTO> dtos = new ArrayList<>();
+	public static ArrayList<ReportReadDTO> convertAllToDTO(List<ReportModel> reports) {
+		ArrayList<ReportReadDTO> dtos = new ArrayList<>();
 		for(ReportModel report : reports) {
-			ResDTO dto = new ResDTO(report);
+			ReportReadDTO dto = new ReportReadDTO(report);
 			dtos.add(dto);
 		}
 		return dtos;

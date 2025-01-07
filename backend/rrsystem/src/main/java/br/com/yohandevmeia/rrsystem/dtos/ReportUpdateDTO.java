@@ -1,11 +1,11 @@
-package br.com.yohandevmeia.rrsystem.dtos.report;
+package br.com.yohandevmeia.rrsystem.dtos;
 
 import java.util.List;
 
 import br.com.yohandevmeia.rrsystem.models.ReportModel;
 import jakarta.validation.constraints.NotNull;
 
-public record UpdateDTO(
+public record ReportUpdateDTO(
 		@NotNull(message = "Report Id is required")
 		
 		long id,

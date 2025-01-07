@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Tela inicial</title>
+        <title>Unauthorized</title>
 
-        <!-- Google fonts -->
+        <!--Google fonts-->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
@@ -13,26 +13,14 @@
             rel="stylesheet"
         />
 
-		<link rel="stylesheet" th:href="@{/css/default.css}" />
-		<link rel="stylesheet" th:href="@{/css/index.css}" />
+        <link rel="stylesheet" th:href="@{/css/default.css}" />
+        <link rel="stylesheet" th:href="@{/css/errors.css}" />
     </head>
     <body>
-        <header>
-            <h1>Room Reservation System</h1>
-            <nav>
-                <a href="#">Home</a>
-                <a href="#">Profile</a>
-                <a href="#">Reservations</a>
-                <a href="./register.html" id="exit">Exit</a>
-            </nav>
-        </header>
         <main>
-            <section>
-                <h2>Rooms to make a reservation</h2>
-                <div id="rooms">
-                </div>
-            </section>
+            <h2>Error 403: Unauthorized</h2>
+            <p>Sorry, but you are not authorized to access this resource</p>
+            <a href="/">Go back to the main page</a>
         </main>
-		<script th:src="@{/js/index.js}"></script>
     </body>
 </html>
