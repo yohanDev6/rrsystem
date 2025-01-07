@@ -16,45 +16,41 @@ fetch('/rooms', {
     }
 })
 .then(data => {
-    loadRooms(data.rooms);
+    loadRooms(data);
 })
 .catch(error => {
     console.error('Erro de autenticação ou expiração de token', error);
+    alert('Sua sessão expirou. Você será redirecionado para a página de login.');
     window.location.href = '/login';
 });
 
-//Exibir salas
+// Exibir salas
 function loadRooms(data) {
-	const roomsdiv = document.querySelector('#rooms');
-	rooms.innerHTML = '';
-	
-	data.forEach(room => {
-		const div = document.createElement('<div>');
-		div.classList.add('room');
-		
-		div.innerHTML = `
-			<h3>${room.name}</h3>
-			<p>Capacidade: ${room.capacity}</p>
-			<p>${room.availability ? 'Disponível' : 'Indisponível'}</p>
-		`;
+    const roomsdiv = document.querySelector('#rooms');
+    roomsdiv.innerHTML = '';
+    
+    data.forEach(room => {
+        const div = document.createElement('div');
+        div.classList.add('room');
+        
+        div.innerHTML = `
+            <h3>${room.name}</h3>
+            <p>Capacidade: ${room.capacity}</p>
+            <p class="availability">${room.availability ? 'Disponível' : 'Indisponível'}</p>
+        `;
 
-		roomsdiv.appendChild(div);
-	})
-	
-	const rooms = document.querySelectorAll(".room");
+        roomsdiv.appendChild(div);
+    });
+
+    const rooms = document.querySelectorAll(".room");
 
     rooms.forEach((room) => {
         const availability = room.querySelector(".availability");
 
-        if (availability.textContent.trim() === "Available") {
+        if (availability.textContent.trim() === "Disponível") {
             availability.style.color = "green";
-        } else if (availability.textContent.trim() === "Unavailable") {
+        } else if (availability.textContent.trim() === "Indisponível") {
             availability.style.color = "red";
         }
     });
 }
-
-
-
-
-
