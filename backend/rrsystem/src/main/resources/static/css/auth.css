@@ -1,62 +1,87 @@
-body {
-    padding: 0 5%;
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2em;
 }
 
-main {
-    padding: 2em;
+section {
     background: white;
-    border-top: 3px solid blue;
-    margin: auto;
-    width: 400px;
+    padding: 2em;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
 }
 
 h1 {
     text-align: center;
+    margin-bottom: 1em;
+    color: #0044cc;
 }
 
 .field {
     display: flex;
     flex-direction: column;
-    margin: 2em 0;
+    margin-bottom: 1.5em;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    color: #333;
 }
 
 input {
-    border: none;
-    outline: none;
-    border-bottom: rgba(0, 35, 131, 0.452) solid 1px;
-    padding-top: 10px;
-    padding-left: 0.5em;
-    margin-top: 5px;
-    transition: 0.2s;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.8em;
+    font-size: 1em;
+    transition: border-color 0.2s;
 }
 
-input:hover {
-    background-color: rgba(76, 109, 180, 0.212);
+input:focus {
+    border-color: #0044cc;
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 68, 204, 0.3);
 }
 
 button {
+    background: #0044cc;
+    color: white;
     border: none;
-    outline: none;
-    padding: 5px 10px;
+    border-radius: 4px;
+    padding: 0.8em;
+    font-size: 1em;
     font-weight: bold;
-    font-size: large;
-    background-color: #fff;
-    color: black;
     cursor: pointer;
-    transition: 0.2s;
+    transition: background 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
-    background-color: blue;
-    color: white;
+    background: #0033aa;
+    transform: translateY(-2px);
 }
 
 .link {
-    text-align: right;
+    text-align: center;
+    margin-top: 1em;
+}
+
+.link a {
+    color: #0044cc;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.link a:hover {
+    color: #0033aa;
 }
 
 @media (max-width: 450px) {
-    main {
-        width: 100%;
+    section {
+        padding: 1.5em;
     }
 }

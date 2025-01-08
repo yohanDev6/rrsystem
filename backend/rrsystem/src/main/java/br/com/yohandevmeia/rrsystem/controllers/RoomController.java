@@ -34,7 +34,7 @@ public class RoomController {
 		return new ResponseEntity<>(RoomDTO.convertAllToDTO(roomService.getAllRooms()), HttpStatus.OK);
 	}
 	
-	@GetMapping("/id/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> getRoomById(@PathVariable long id) {
 		return new ResponseEntity<>(new RoomDTO(roomService.getRoomById(id)), HttpStatus.OK);
 	}

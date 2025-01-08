@@ -1,0 +1,66 @@
+body {
+	background-color: #fff;
+}
+
+
+section {
+	margin-bottom: 2em;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    padding: 1.5em;
+    gap: 1em;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+label {
+    font-weight: bold;
+    color: #333;
+}
+
+input {
+    padding: 0.8em;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.3);
+}
+
+button {
+    padding: 0.8em;
+    font-size: 1em;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+footer {
+	position: static;
+}
+
+@media (max-width: 450px) {
+    main {
+        width: 100%;
+    }
+}

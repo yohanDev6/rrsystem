@@ -29,10 +29,8 @@ public class Security {
         	.sessionManagement((session) -> session
         			.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((authorize) -> authorize 
-            		.requestMatchers("/", "/login/**", "/register/**", "/css/**", "/js/**", "/favicon.ico", "/errors/**").permitAll()
-            		
-            		.requestMatchers(HttpMethod.POST, "/login").permitAll()
-            		.requestMatchers(HttpMethod.GET, "/login").permitAll()
+            		.requestMatchers("/", "/login/**", "/register/**", "/css/**", "/js/**", "/favicon.ico", "/errors/**"
+            				, "/room/**", "/profile/**", "/myreservations/**").permitAll()
             		
             		// Clients routes
             	    .requestMatchers(HttpMethod.POST, "/clients").permitAll()
