@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.yohandevmeia.rrsystem.dtos.AuthDTO;
 import br.com.yohandevmeia.rrsystem.dtos.ClientReadDTO;
 import br.com.yohandevmeia.rrsystem.dtos.ClientSaveDTO;
 import br.com.yohandevmeia.rrsystem.models.ClientModel;

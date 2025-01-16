@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.yohandevmeia.rrsystem.models.AdminModel;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
 
 public record AdminDTO(
     long id,

@@ -80,3 +80,8 @@ footer a {
 footer a:hover {
     color: #ffd633;
 }
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}

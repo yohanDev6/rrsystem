@@ -38,9 +38,9 @@ public class EquipmentService extends GlobalValidationService{
 	}
 	
 	@Transactional(readOnly = true)
-	public long countEquipments(long roomId) {
+	public List<EquipmentModel> getEquipmentsByRoom(long roomId) {
 		verifyId(roomId);
-		return equipmentRepository.countByRoomId(roomId);
+		return equipmentRepository.findByRoomId(roomId);
 	}
 	
 	@Transactional(readOnly = true)

@@ -34,9 +34,14 @@ public class EquipmentController {
 		return new ResponseEntity<>(EquipmentDTO.convertAllEquipments(equipmentService.getAllEquipments()), HttpStatus.OK);
 	}
 	
-	@GetMapping("/id/{id}")
+	@GetMapping("/{id}")
 	public ResponseEntity<?> getEquipmentById(@PathVariable long id) {
 		return new ResponseEntity<>(new EquipmentDTO(equipmentService.getEquipmentById(id)), HttpStatus.OK);
+	}
+
+	@GetMapping("/room/{roomId}")
+	public ResponseEntity<?> getEquipmentsByRoom(@PathVariable long roomId) {
+		return new ResponseEntity<>(EquipmentDTO.convertAllEquipments(equipmentService.getEquipmentsByRoom(roomId)), HttpStatus.OK);
 	}
 	
 	@PutMapping

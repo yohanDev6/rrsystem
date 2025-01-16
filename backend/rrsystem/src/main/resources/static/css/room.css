@@ -7,6 +7,14 @@ section {
 	margin-bottom: 2em;
 }
 
+.flex-row > div {
+    width: 50%;
+}
+
+.equipments {
+    text-align: left;
+}
+
 form {
     display: flex;
     flex-direction: column;
