@@ -1,6 +1,6 @@
 import React from 'react';
-import Nav from '../../ui/components/nav/Nav';
-import { useRooms } from '../../data/hooks/useRooms';
+import Nav from '../../components/nav/Nav';
+import { useRooms } from '../../hooks/useRooms';
 import './Home.css';
 
 export default function Home() {
