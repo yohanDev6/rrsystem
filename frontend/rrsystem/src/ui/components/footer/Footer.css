@@ -1,0 +1,30 @@
+footer {
+    background-color: #125d7d;
+    color: #ffffff;
+    text-align: center;
+    padding: 1.5em;
+    font-size: 0.9rem;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+    border-top: 3px solid #0f4b63;
+}
+
+footer > p {
+    margin: 0.5em 0;
+    line-height: 1.5;
+}
+
+footer > p > a {
+    color: #b3e6ff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+footer > p > a:hover {
+    color: #e6f7ff;
+    text-decoration: underline;
+}
+
+.social-links > a {
+    color: #b3e6ff;
+}
