@@ -10,7 +10,7 @@ nav {
     padding: 0 20%;
 }
 
-nav > a {
+.anchor {
     color: #fff;
     text-decoration: none;
     text-align: center;
@@ -22,14 +22,14 @@ nav > a {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-nav > a:hover {
+.anchor:hover {
     background-color: #125d7d;
     color: #e6f7ff;
     cursor: pointer;
 }
 
 @media (max-width: 550px) {
-    nav > a {
+    .anchor {
         margin: 0.3em;
     }
 }

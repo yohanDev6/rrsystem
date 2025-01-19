@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import api from '../services/api';
+import { RoomService } from '../services/RoomService';
 
 export function useRooms() {
     const [rooms, setRooms] = useState([]);
@@ -9,10 +9,10 @@ export function useRooms() {
     useEffect(() => {
         async function fetchRooms() {
             try {
-                const response = await api.get('/rooms');
-                setRooms(response.data);
+                const response = await RoomService.getAllRooms();
+                setRooms(response);
             } catch (err) {
-                setError('Failed to fetch rooms.');
+                setError(err.message || 'Failed to fetch rooms.');
             } finally {
                 setLoading(false);
             }

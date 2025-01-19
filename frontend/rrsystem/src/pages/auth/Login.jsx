@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "./Login.css";
+import { useNavigate } from "react-router-dom";
+import "./Auth.css";
 import {loginUser} from "../../services/AuthService";
 
 export default function Login() {
@@ -7,6 +8,7 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -20,19 +22,18 @@ export default function Login() {
         setError(null);
 
         try {
-            const token = await loginUser(email, password);
-            localStorage.setItem("jwtToken", token);
-            console.log("login successful, token saved");
+            await loginUser(email, password);
+            navigate('/');
         } catch (err) {
-            setError(err.message || "Login failed. Please try again");
+            setError(err.message || "Login failed. Please try again.");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <main className="login-container">
-            <form onSubmit={handleLogin} className="login-form">
+        <main className="auth-container">
+            <form onSubmit={handleLogin}>
                 <h2>Login</h2>
 
                 {error && <p className="error-message">{error}</p>}
@@ -63,12 +64,13 @@ export default function Login() {
 
                 <button
                     type="submit"
-                    className="login-button"
+                    className="auth-button"
                     disabled={loading}
                 >
                     {loading ? "Logging in..." : "Login"}
                 </button>
             </form>
+            <p>If you do not have an account yet. <a href="/register">Register</a></p>
         </main>
     );
 }

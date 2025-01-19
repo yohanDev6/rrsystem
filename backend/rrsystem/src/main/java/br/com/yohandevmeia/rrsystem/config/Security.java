@@ -15,6 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
+import br.com.yohandevmeia.rrsystem.services.BlackListService;
 import br.com.yohandevmeia.rrsystem.services.JwtService;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -23,7 +24,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class Security {
     
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtService jwtService, UserDetailsService userDetailsService) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtService jwtService, BlackListService blackListService, UserDetailsService userDetailsService) throws Exception {
         http.csrf((csrf) -> csrf.disable())
 			.cors(cors -> cors.configurationSource(request -> {
                 var corsConfig = new CorsConfiguration();
@@ -38,6 +39,8 @@ public class Security {
             .authorizeHttpRequests((authorize) -> authorize 
             		.requestMatchers("/", "/login/**", "/register/**", "/css/**", "/js/**", "/favicon.ico", "/errors/**"
             				, "/room/**", "/profile/**", "/myreservations/**").permitAll()
+            		
+            		.requestMatchers("/logout").authenticated()
             		
             		// Clients routes
             	    .requestMatchers(HttpMethod.POST, "/clients").permitAll()
@@ -80,7 +83,7 @@ public class Security {
                         res.getWriter().write("Unauthorized: " + authException.getMessage());
                     })
                 )
-            .addFilterBefore(new JwtAuthenticationFilter(jwtService, userDetailsService), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(new JwtAuthenticationFilter(jwtService, userDetailsService, blackListService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

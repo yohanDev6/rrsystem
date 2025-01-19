@@ -3,7 +3,7 @@ import api from './api';
 export const RoomService = {
     getAllRooms: async () => {
         const response = await api.get('/rooms');
-        return response.data;
+        return Array.isArray(response.data) ? response.data : [];
     },
 
     getRoomById: async (id) => {
