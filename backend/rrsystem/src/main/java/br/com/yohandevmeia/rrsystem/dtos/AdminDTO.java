@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.yohandevmeia.rrsystem.models.AdminModel;
+import jakarta.validation.constraints.NotNull;
 
+//Used to read administrators
 public record AdminDTO(
-    long id,
-    long userId
+	    long id,
+	    long userId
 ) {
     public AdminDTO(AdminModel admin) {
         this(admin.getId(), admin.getClient().getId());

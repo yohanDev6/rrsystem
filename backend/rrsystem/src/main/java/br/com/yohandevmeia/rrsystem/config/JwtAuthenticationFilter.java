@@ -12,6 +12,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import br.com.yohandevmeia.rrsystem.exceptions.JwtBlacklistedException;
+import br.com.yohandevmeia.rrsystem.exceptions.JwtInvalidException;
+import br.com.yohandevmeia.rrsystem.exceptions.JwtMissingException;
 import br.com.yohandevmeia.rrsystem.services.BlackListService;
 import br.com.yohandevmeia.rrsystem.services.JwtService;
 import jakarta.servlet.FilterChain;
@@ -35,38 +38,38 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         String authHeader = request.getHeader("Authorization");
-        
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String token = authHeader.substring(7);
-            System.out.println("Token recebido");
-            
-            if (blackListService.isTokenBlacklisted(token)) {
-                System.out.println("Token está na blacklist e foi rejeitado.");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("Token inválido ou revogado.");
-                return;
-            }
-            
-            if (jwtService.validateToken(token)) {
-            	System.out.println("Usuário autenticado");
-                String username = jwtService.extractUsername(token);
-                List<String> roles = jwtService.extractRoles(token);
-                System.out.println("Roles do token: " + roles);
-                
-                List<GrantedAuthority> authorities = roles.stream()
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toList());
 
-                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+        try {
+            if (authHeader != null && authHeader.startsWith("Bearer ")) {
+                String token = authHeader.substring(7);
+
+                if (blackListService.isTokenBlacklisted(token)) {
+                    throw new JwtBlacklistedException("The token is blacklisted. Therefore, it was invalidated.");
+                }
+
+                if (jwtService.validateToken(token)) {
+                    String username = jwtService.extractUsername(token);
+                    List<String> roles = jwtService.extractRoles(token);
+
+                    List<GrantedAuthority> authorities = roles.stream()
+                        .map(SimpleGrantedAuthority::new)
+                        .collect(Collectors.toList());
+
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                    var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, authorities);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                } else {
+                    throw new JwtInvalidException("Invalid token.");
+                }
             } else {
-            	System.out.println("Token inválido");
+            	System.out.println("Missing or poorly formatted Authorization header.");
+                //throw new JwtMissingException("Missing or poorly formatted Authorization header.");
             }
-        } else {
-            System.out.println("Cabeçalho Authorization ausente ou mal formatado.");
+
+            filterChain.doFilter(request, response);
+
+        } catch (JwtBlacklistedException | JwtInvalidException e) {
+            throw e;
         }
-        
-        filterChain.doFilter(request, response);
-    }
+    }   
 }

@@ -17,11 +17,11 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import br.com.yohandevmeia.rrsystem.services.BlackListService;
 import br.com.yohandevmeia.rrsystem.services.JwtService;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebSecurity
 public class Security {
+	
     
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtService jwtService, BlackListService blackListService, UserDetailsService userDetailsService) throws Exception {
@@ -77,12 +77,7 @@ public class Security {
             	    .requestMatchers(HttpMethod.PUT, "/rooms/**").hasRole("ADMIN")
             	    .requestMatchers(HttpMethod.DELETE, "/rooms/{id}").hasRole("ADMIN")
                 .anyRequest().authenticated())
-            .exceptionHandling(exceptions -> exceptions
-                    .authenticationEntryPoint((req, res, authException) -> {
-                        res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                        res.getWriter().write("Unauthorized: " + authException.getMessage());
-                    })
-                )
+            	//AuthenticationEntryPoint. Must implement jwt token exceptions!
             .addFilterBefore(new JwtAuthenticationFilter(jwtService, userDetailsService, blackListService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

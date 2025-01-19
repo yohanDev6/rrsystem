@@ -30,7 +30,7 @@ public abstract class GlobalValidationService {
     * @param message Exception message in case of null or empty.
     * @throws IllegalArgumentException if the email is invalid.
     */
-   public static void verifyEmail(String email, String message) {
-	   if (email.isEmpty() || email == null) throw new IllegalArgumentException(message);
+   public static void verifyEmail(String email) {
+	   if (email.isEmpty() || email == null) throw new IllegalArgumentException("Email: " + email + " is invalid");
    }
 }

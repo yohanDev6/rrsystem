@@ -58,7 +58,7 @@ public class ClientService extends GlobalValidationService {
     public void update(ClientModel clientUpdated) {
         verifyObject(clientUpdated, "Invalid data to update the client: client to update is null");
         verifyId(clientUpdated.getId());
-        verifyEmail(clientUpdated.getEmail(), "Invalid data to update the client: email is null");
+        verifyEmail(clientUpdated.getEmail());
         ClientModel existingClient = getClientById(clientUpdated.getId());
         existingClient.setName(clientUpdated.getName());
         existingClient.setEmail(clientUpdated.getEmail());

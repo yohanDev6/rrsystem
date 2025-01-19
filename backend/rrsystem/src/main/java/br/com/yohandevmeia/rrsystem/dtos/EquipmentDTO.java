@@ -7,6 +7,7 @@ import br.com.yohandevmeia.rrsystem.models.EquipmentModel;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
+// Used to create, read or update an equipment
 public record EquipmentDTO(
 		long id,
 		
