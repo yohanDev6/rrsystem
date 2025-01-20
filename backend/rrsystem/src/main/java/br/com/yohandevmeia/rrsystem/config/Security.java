@@ -22,7 +22,7 @@ import br.com.yohandevmeia.rrsystem.services.JwtService;
 @EnableWebSecurity
 public class Security {
 	
-    
+	
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtService jwtService, BlackListService blackListService, UserDetailsService userDetailsService) throws Exception {
         http.csrf((csrf) -> csrf.disable())
@@ -77,7 +77,6 @@ public class Security {
             	    .requestMatchers(HttpMethod.PUT, "/rooms/**").hasRole("ADMIN")
             	    .requestMatchers(HttpMethod.DELETE, "/rooms/{id}").hasRole("ADMIN")
                 .anyRequest().authenticated())
-            	//AuthenticationEntryPoint. Must implement jwt token exceptions!
             .addFilterBefore(new JwtAuthenticationFilter(jwtService, userDetailsService, blackListService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
