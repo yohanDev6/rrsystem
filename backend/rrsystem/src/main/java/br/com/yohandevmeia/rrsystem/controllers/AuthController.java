@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.yohandevmeia.rrsystem.dtos.AuthDTO;
 import br.com.yohandevmeia.rrsystem.models.ClientModel;
-import br.com.yohandevmeia.rrsystem.services.BlackListService;
+import br.com.yohandevmeia.rrsystem.models.RefreshToken;
 import br.com.yohandevmeia.rrsystem.services.JwtService;
+import br.com.yohandevmeia.rrsystem.services.RefreshTokenService;
 import jakarta.validation.Valid;
 
 @RestController
@@ -34,7 +35,7 @@ public class AuthController {
 	private JwtService jwtService;
 	
 	@Autowired
-	private BlackListService blackListService;
+	private RefreshTokenService refreshTokenService;
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@Valid @RequestBody AuthDTO dto) {
@@ -46,19 +47,39 @@ public class AuthController {
 	                               .map(GrantedAuthority::getAuthority)
 	                               .collect(Collectors.toList());
 
-	    String token = jwtService.generateToken(client.getUsername(), roles);
+	    String accessToken = jwtService.generateToken(client.getUsername(), roles);
+	    RefreshToken refreshToken = refreshTokenService.createRefreshToken(client.getId());
+
+	    Map<String, String> response = new HashMap<>();
+	    response.put("accessToken", accessToken);
+	    response.put("refreshToken", refreshToken.getToken());
+	    response.put("clientId", String.valueOf(client.getId()));
+
+	    return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	@PostMapping("/refresh-token")
+	public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> request) {
+	    String refreshToken = request.get("refreshToken");
+
+	    RefreshToken token = refreshTokenService.verifyToken(refreshToken);
+	    var client = token.getClient();
+
+	    List<String> roles = client.getAuthorities().stream()
+	                               .map(GrantedAuthority::getAuthority)
+	                               .collect(Collectors.toList());
+
+	    String newAccessToken = jwtService.generateToken(client.getUsername(), roles);
 	    
 	    Map<String, String> response = new HashMap<>();
-	    response.put("token", token);
-	    response.put("clientId", String.valueOf(client.getId()));
-	    
+	    response.put("accessToken", newAccessToken);
 	    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	@PostMapping("/logout")
 	public ResponseEntity<String> logout(@RequestHeader("Authorization") String token) {
-		String jwtToken = token.replace("Bearer ", "");
-		blackListService.addTokenToBlacklist(jwtToken);
-		return new ResponseEntity<>("Logout successfully", HttpStatus.OK);
+	    String jwtToken = token.replace("Bearer ", "");
+	    refreshTokenService.revokeToken(jwtToken);
+	    return new ResponseEntity<>("Logout successfully", HttpStatus.OK);
 	}
 }

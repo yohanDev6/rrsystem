@@ -49,6 +49,9 @@ public class ClientModel implements UserDetails{
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReservationModel> reservations = new ArrayList<>();
     
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RefreshToken> tokens = new ArrayList<>();
+    
     public ClientModel() {
     	
     }
@@ -105,6 +108,14 @@ public class ClientModel implements UserDetails{
 
 	public void setReservations(List<ReservationModel> reservations) {
 		this.reservations = reservations;
+	}
+
+	public List<RefreshToken> getTokens() {
+		return tokens;
+	}
+
+	public void setTokens(List<RefreshToken> tokens) {
+		this.tokens = tokens;
 	}
 
 	@Override

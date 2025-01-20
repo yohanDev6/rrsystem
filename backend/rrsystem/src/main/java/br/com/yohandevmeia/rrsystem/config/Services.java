@@ -11,7 +11,6 @@ import br.com.yohandevmeia.rrsystem.repositories.ReportRepository;
 import br.com.yohandevmeia.rrsystem.repositories.ReservationRepository;
 import br.com.yohandevmeia.rrsystem.repositories.RoomRepository;
 import br.com.yohandevmeia.rrsystem.services.AdminService;
-import br.com.yohandevmeia.rrsystem.services.BlackListService;
 import br.com.yohandevmeia.rrsystem.services.ClientService;
 import br.com.yohandevmeia.rrsystem.services.EquipmentService;
 import br.com.yohandevmeia.rrsystem.services.ReportService;
@@ -67,10 +66,5 @@ public class Services {
     @Bean
     public ReservationService reservationService() {
     	return new ReservationService(reservationRepository, clientRepository, roomRepository);
-    }
-    
-    @Bean
-    public BlackListService blackListService() {
-    	return new BlackListService();
     }
 }

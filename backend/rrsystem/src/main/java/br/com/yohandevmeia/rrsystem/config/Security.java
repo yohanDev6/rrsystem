@@ -15,7 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 
-import br.com.yohandevmeia.rrsystem.services.BlackListService;
 import br.com.yohandevmeia.rrsystem.services.JwtService;
 
 @Configuration
@@ -24,7 +23,7 @@ public class Security {
 	
 	
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtService jwtService, BlackListService blackListService, UserDetailsService userDetailsService) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtService jwtService, UserDetailsService userDetailsService) throws Exception {
         http.csrf((csrf) -> csrf.disable())
 			.cors(cors -> cors.configurationSource(request -> {
                 var corsConfig = new CorsConfiguration();
@@ -37,11 +36,8 @@ public class Security {
         	.sessionManagement((session) -> session
         			.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((authorize) -> authorize 
-            		.requestMatchers("/", "/login/**", "/register/**", "/css/**", "/js/**", "/favicon.ico", "/errors/**"
-            				, "/room/**", "/profile/**", "/myreservations/**").permitAll()
-            		
-            		.requestMatchers("/logout").authenticated()
-            		
+            		.requestMatchers("/register", "/logout").permitAll()
+            		.requestMatchers(HttpMethod.POST, "/login").permitAll()
             		// Clients routes
             	    .requestMatchers(HttpMethod.POST, "/clients").permitAll()
             	    .requestMatchers(HttpMethod.GET, "/clients/{id}", "/clients/email/**").hasRole("CLIENT")
@@ -77,7 +73,7 @@ public class Security {
             	    .requestMatchers(HttpMethod.PUT, "/rooms/**").hasRole("ADMIN")
             	    .requestMatchers(HttpMethod.DELETE, "/rooms/{id}").hasRole("ADMIN")
                 .anyRequest().authenticated())
-            .addFilterBefore(new JwtAuthenticationFilter(jwtService, userDetailsService, blackListService), UsernamePasswordAuthenticationFilter.class);
+            .addFilterBefore(new JwtAuthenticationFilter(jwtService, userDetailsService), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

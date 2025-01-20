@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.yohandevmeia.rrsystem.models.AdminModel;
-import jakarta.validation.constraints.NotNull;
 
 //Used to read administrators
 public record AdminDTO(
