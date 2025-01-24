@@ -36,7 +36,7 @@ public class Security {
         	.sessionManagement((session) -> session
         			.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests((authorize) -> authorize 
-            		.requestMatchers("/register", "/logout").permitAll()
+            		.requestMatchers("/logout").permitAll()
             		.requestMatchers(HttpMethod.POST, "/login").permitAll()
             		// Clients routes
             	    .requestMatchers(HttpMethod.POST, "/clients").permitAll()

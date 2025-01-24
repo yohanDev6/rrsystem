@@ -13,7 +13,7 @@ import br.com.yohandevmeia.rrsystem.repositories.RefreshTokenRepository;
 @Service
 public class RefreshTokenService extends GlobalValidationService {
 
-	@Value("${app.jwt.refresh-expiration}")
+	@Value("${jwt.refresh-expiration}")
     private long refreshTokenDurationMs;
 
     private final RefreshTokenRepository refreshTokenRepository;

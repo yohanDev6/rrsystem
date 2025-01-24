@@ -58,7 +58,7 @@ public class AuthController {
 	    return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
-	@PostMapping("/refresh-token")
+	@PostMapping("/refresh")
 	public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> request) {
 	    String refreshToken = request.get("refreshToken");
 

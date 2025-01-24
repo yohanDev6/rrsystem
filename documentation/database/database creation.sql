@@ -11,12 +11,22 @@ CREATE TABLE client (
     active BOOLEAN NOT NULL DEFAULT TRUE
 ) engine=InnoDB;
 
+-- Create table for "refresh-tokens"
+CREATE TABLE refresh_tokens (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    client_id BIGINT NOT NULL,
+    token VARCHAR(512) NOT NULL,
+    expiry_date DATETIME NOT NULL,
+    revoked BOOLEAN NOT NULL DEFAULT FALSE,
+    CONSTRAINT fk_client FOREIGN KEY (client_id) REFERENCES client(id) ON DELETE CASCADE
+) engine=InnoDB;
+
 -- Create table for "admin"
 CREATE TABLE admin (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     client_id BIGINT NOT NULL UNIQUE,
     FOREIGN KEY (client_id) REFERENCES client(id)
-);
+) engine=InnoDB;
 
 -- Create table for "room"
 CREATE TABLE room (

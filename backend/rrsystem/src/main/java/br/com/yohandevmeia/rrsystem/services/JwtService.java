@@ -19,7 +19,7 @@ public class JwtService {
     @Value("${jwt.secret}")
     private String SECRET_KEY;
 	
-    private static final long EXPIRATION_TIME = 7200000; // 2 horas (em milissegundos)
+    private static final long EXPIRATION_TIME = 7200000; // 2 hours (in milliseconds)
     
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());

@@ -45,11 +45,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     	String authHeader = request.getHeader("Authorization");
 
     	String requestURI = request.getRequestURI();
-    	if (requestURI.equals("/login") || requestURI.equals("/register")
-    			|| requestURI.equals("/logout")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+    	String requestMethod = request.getMethod();
+    	if ((requestURI.equals("/login") || 
+    	     requestURI.equals("/register") || 
+    	     requestURI.equals("/logout")) || 
+    	    (requestURI.equals("/clients") && requestMethod.equalsIgnoreCase("POST"))) {
+    	    filterChain.doFilter(request, response);
+    	    return;
+    	}
     	
         try {
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
